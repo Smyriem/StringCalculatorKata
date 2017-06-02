@@ -26,5 +26,9 @@ public class StringCalculatorTest {
 	public void test_OneValue_ShouldReturnSame() {		
 		assertEquals(stringCalculator.add("58"),58);
 	}
-
+	
+	@Test
+	public void test_TwoValuesWithComma_ShouldReturnSum() {		
+		assertEquals(stringCalculator.add("8,10"),18);
+	}
 }
