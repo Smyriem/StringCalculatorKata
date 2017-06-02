@@ -7,11 +7,11 @@ public class StringCalculator {
 	public int add(String input) {
 
 		if (isEmpty(input)) {
-			
+
 			return 0;
-			
+
 		} else if (input.contains(",")) {
-			
+
 			String[] numbers = input.split(",");
 			return getSum(numbers);
 
@@ -32,11 +32,10 @@ public class StringCalculator {
 		int number = 0;
 		try {
 			number = Integer.parseInt(input);
-		} catch(NumberFormatException e){
-			throw new UnknownNumberException("unknown amount of numbers",e);
+		} catch (NumberFormatException e) {
+			throw new UnknownNumberException("unknown amount of numbers", e);
 		}
 		return number;
 	}
-
 
 }

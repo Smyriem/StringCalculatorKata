@@ -5,17 +5,16 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import exeption.UnknownNumberException;
 import main.StringCalculator;
 
 public class StringCalculatorTest {
 
 	private StringCalculator stringCalculator;
-	private Exception expectedException;
 
 	@Before
 	public void setUp() throws Exception {
-		stringCalculator = new StringCalculator();		
-		expectedException = new Exception("unknown amount of numbers");
+		stringCalculator = new StringCalculator();
 	}
 
 	@Test
@@ -33,12 +32,8 @@ public class StringCalculatorTest {
 		assertEquals(stringCalculator.add("8,10"), 18);
 	}
 
-	@Test
+	@Test(expected = UnknownNumberException.class)
 	public void test_UnkownValues_ShouldThrowException() {
-		try {
-			stringCalculator.add("/@@@&&");
-		} catch (Exception handledException) {
-			assertEquals(handledException.getMessage(), expectedException.getMessage());
-		}		
+		stringCalculator.add("/@@@&&");
 	}
 }
