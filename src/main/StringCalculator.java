@@ -1,5 +1,7 @@
 package main;
 
+import exeption.UnknownNumberException;
+
 public class StringCalculator {
 
 	public int add(String input) {
@@ -27,14 +29,14 @@ public class StringCalculator {
 	}
 
 	private int convertStringToInt(String input) {
-		int n;
+		int number = 0;
 		try {
-			n = Integer.parseInt(input);
+			number = Integer.parseInt(input);
 		} catch(NumberFormatException e){
-			String message ="unknown amount of numbers" ;
-			throw new NumberFormatException(message);
+			throw new UnknownNumberException("unknown amount of numbers",e);
 		}
-		return n;
+		return number;
 	}
+
 
 }

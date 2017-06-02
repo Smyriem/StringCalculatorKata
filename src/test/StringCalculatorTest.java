@@ -10,13 +10,12 @@ import main.StringCalculator;
 public class StringCalculatorTest {
 
 	private StringCalculator stringCalculator;
-	Exception exception;
+	private Exception expectedException;
 
 	@Before
 	public void setUp() throws Exception {
-		stringCalculator = new StringCalculator();
-		String message = "unknown amount of numbers";
-		exception = new Exception(message);
+		stringCalculator = new StringCalculator();		
+		expectedException = new Exception("unknown amount of numbers");
 	}
 
 	@Test
@@ -37,9 +36,9 @@ public class StringCalculatorTest {
 	@Test
 	public void test_UnkownValues_ShouldThrowException() {
 		try {
-			stringCalculator.add("/@@,@&&");
-		} catch (Exception e) {
-			assertEquals(e.getMessage(), exception.getMessage());
+			stringCalculator.add("/@@@&&");
+		} catch (Exception handledException) {
+			assertEquals(handledException.getMessage(), expectedException.getMessage());
 		}		
 	}
 }
