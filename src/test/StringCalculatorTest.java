@@ -8,27 +8,26 @@ import org.junit.Test;
 import main.StringCalculator;
 
 public class StringCalculatorTest {
-	
+
 	private StringCalculator stringCalculator;
-	
-	
+
 	@Before
 	public void setUp() throws Exception {
 		stringCalculator = new StringCalculator();
 	}
 
 	@Test
-	public void test_EmptyString_ShouldReturnZero() {		
+	public void test_EmptyString_ShouldReturnZero() {
 		assertEquals(stringCalculator.add(""), 0);
 	}
-	
+
 	@Test
-	public void test_OneValue_ShouldReturnSame() {		
-		assertEquals(stringCalculator.add("58"),58);
+	public void test_OneValue_ShouldReturnSame() {
+		assertEquals(stringCalculator.add("58"), 58);
 	}
-	
+
 	@Test
-	public void test_TwoValuesWithComma_ShouldReturnSum() {		
-		assertEquals(stringCalculator.add("8,10"),18);
+	public void test_TwoValuesWithComma_ShouldReturnSum() {
+		assertEquals(stringCalculator.add("8,10"), 18);
 	}
 }

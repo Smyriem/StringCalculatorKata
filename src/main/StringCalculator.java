@@ -11,10 +11,15 @@ public class StringCalculator {
 		} else if (input.contains(",")) {
 			
 			String[] numbers = input.split(",");
-			return convertStringToInt(numbers[0]) + convertStringToInt(numbers[1]);
-			
+			return getSum(numbers);
+
 		} else
+
 			return convertStringToInt(input);
+	}
+
+	private int getSum(String[] numbers) {
+		return convertStringToInt(numbers[0]) + convertStringToInt(numbers[1]);
 	}
 
 	private boolean isEmpty(String input) {
