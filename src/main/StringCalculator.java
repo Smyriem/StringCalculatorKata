@@ -6,8 +6,11 @@ public class StringCalculator {
 		
 		if(isEmpty(input)){
 			return 0;
+		} else {
+			String[] numbers = input.split(",");
+			return convertStringToInt(numbers[0])+convertStringToInt(numbers[1]);
 		}
-		return convertStringToInt(input);
+		//return convertStringToInt(input);
 	}
 
 	private boolean isEmpty(String input) {		
