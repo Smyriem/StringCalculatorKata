@@ -18,5 +18,11 @@ public class StringCalculatorTest {
 		StringCalculator stringCalculator = new StringCalculator();
 		assertEquals(stringCalculator.add(""), 0);
 	}
+	
+	@Test
+	public void test_OneValue_ShouldReturnSame() {
+		StringCalculator stringCalculator = new StringCalculator();
+		assertEquals(stringCalculator.add("58"),58);
+	}
 
 }
