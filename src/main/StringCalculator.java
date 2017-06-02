@@ -27,7 +27,14 @@ public class StringCalculator {
 	}
 
 	private int convertStringToInt(String input) {
-		return Integer.parseInt(input);
+		int n;
+		try {
+			n = Integer.parseInt(input);
+		} catch(NumberFormatException e){
+			String message ="unknown amount of numbers" ;
+			throw new NumberFormatException(message);
+		}
+		return n;
 	}
 
 }
