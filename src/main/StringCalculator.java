@@ -3,17 +3,21 @@ package main;
 public class StringCalculator {
 
 	public int add(String input) {
-		
-		if(isEmpty(input)){
+
+		if (isEmpty(input)) {
+			
 			return 0;
-		} else {
+			
+		} else if (input.contains(",")) {
+			
 			String[] numbers = input.split(",");
-			return convertStringToInt(numbers[0])+convertStringToInt(numbers[1]);
-		}
-		//return convertStringToInt(input);
+			return convertStringToInt(numbers[0]) + convertStringToInt(numbers[1]);
+			
+		} else
+			return convertStringToInt(input);
 	}
 
-	private boolean isEmpty(String input) {		
+	private boolean isEmpty(String input) {
 		return input.isEmpty();
 	}
 
