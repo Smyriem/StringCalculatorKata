@@ -1,8 +1,11 @@
 package main;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import exception.NegativeNumberException;
 import exception.UnknownNumberException;
 
 public class StringCalculator {
@@ -15,10 +18,15 @@ public class StringCalculator {
 		if (isEmpty(input)) {
 			return 0;
 		}
+		String[] numbers = input.split(",|\n");
+		List<String> listNegativ = Arrays.stream(numbers).filter(n-> n.contains("-")).collect(Collectors.toList());
+		if(!listNegativ.isEmpty()){
+			throw new NegativeNumberException("negatives not allowed: "+listNegativ);
+		}
+		
 		if (input.contains(COMMA_DELIMITER) || input.contains(NEWLINE_DELIMITER)) {
 			validateInput(input);
 		}
-		String[] numbers = input.split(",|\n");
 		return getSum(numbers);
 	}
 
