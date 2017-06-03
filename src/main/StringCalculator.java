@@ -1,6 +1,8 @@
 package main;
 
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import exeption.UnknownNumberException;
 
@@ -10,6 +12,16 @@ public class StringCalculator {
 		if (isEmpty(input)) {
 			return 0;
 		}
+		if (input.contains(",") || input.contains("\n")) {
+			String patternInput = "^\\d+([\\,|\\n]?\\d+)*";
+			Pattern pattern = Pattern.compile(patternInput);
+			Matcher matcher = pattern.matcher(input);
+			boolean isValid = matcher.matches();
+			if (!isValid) {
+				throw new IllegalArgumentException("input not valid");
+			}
+		}
+
 		String[] numbers = input.split(",|\n");
 		return getSum(numbers);
 	}
