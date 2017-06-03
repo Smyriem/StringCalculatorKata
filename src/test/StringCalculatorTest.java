@@ -36,4 +36,9 @@ public class StringCalculatorTest {
 	public void test_UnkownValues_ShouldThrowException() {
 		stringCalculator.add("/@@@&&");
 	}
+	
+	@Test
+	public void test_HandleNewLineBtwValues_ShouldReturnSum() {
+		assertEquals(stringCalculator.add("1\n2,3"), 18);
+	}
 }
