@@ -3,7 +3,7 @@ package main;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-import exeption.UnknownNumberException;
+import exception.UnknownNumberException;
 
 public class StringCalculator {
 

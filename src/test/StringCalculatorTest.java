@@ -5,7 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import exeption.UnknownNumberException;
+import exception.NegativeNumberException;
+import exception.UnknownNumberException;
 import main.StringCalculator;
 
 public class StringCalculatorTest {
@@ -36,14 +37,23 @@ public class StringCalculatorTest {
 	public void test_UnkownValues_ShouldThrowException() {
 		stringCalculator.add("/@@@&&");
 	}
-	
+
 	@Test
 	public void test_HandleNewLineBtwValues_ShouldReturnSum() {
 		assertEquals(stringCalculator.add("1\n2,3"), 6);
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void test_NewLineBtwValues_ShouldThrowException() {
 		stringCalculator.add("1,\n");
+	}
+
+	@Test
+	public void test_NegativeValues_ShouldThrowException() {
+		try {
+			stringCalculator.add("1,-2,-53");
+		} catch (NegativeNumberException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }
