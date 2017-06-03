@@ -41,4 +41,9 @@ public class StringCalculatorTest {
 	public void test_HandleNewLineBtwValues_ShouldReturnSum() {
 		assertEquals(stringCalculator.add("1\n2,3"), 6);
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void test_NewLineBtwValues_ShouldThrowException() {
+		stringCalculator.add("1,\n");
+	}
 }
