@@ -1,29 +1,33 @@
 package main;
 
 import java.util.Arrays;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import exeption.UnknownNumberException;
 
 public class StringCalculator {
 
+	private static final String COMMA_DELIMITER = ",";
+	private static final String NEWLINE_DELIMITER = "\n";
+	private static final String INPUT_PATTERN = "^\\d+([\\,|\\n]?\\d+)*";
+
 	public int add(String input) {
 		if (isEmpty(input)) {
 			return 0;
 		}
-		if (input.contains(",") || input.contains("\n")) {
-			String patternInput = "^\\d+([\\,|\\n]?\\d+)*";
-			Pattern pattern = Pattern.compile(patternInput);
-			Matcher matcher = pattern.matcher(input);
-			boolean isValid = matcher.matches();
-			if (!isValid) {
-				throw new IllegalArgumentException("input not valid");
-			}
+		if (input.contains(COMMA_DELIMITER) || input.contains(NEWLINE_DELIMITER)) {
+			validateInput(input);
 		}
-
 		String[] numbers = input.split(",|\n");
 		return getSum(numbers);
+	}
+
+	private void validateInput(String input) {
+		Pattern pattern = Pattern.compile(INPUT_PATTERN);
+		boolean isValidInput = pattern.matcher(input).matches();
+		if (!isValidInput) {
+			throw new IllegalArgumentException("input not valid");
+		}
 	}
 
 	private int getSum(String[] numbers) {
