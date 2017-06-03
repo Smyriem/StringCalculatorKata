@@ -1,6 +1,7 @@
 package main;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -19,7 +20,7 @@ public class StringCalculator {
 		String[] numbers = input.split(",|\n");
 
 		validateInput(input);
-		
+
 		checkNegativeNumbers(numbers);
 
 		return getSum(numbers);
@@ -42,15 +43,13 @@ public class StringCalculator {
 	private void checkNegativeNumbers(String[] numbers) {
 		String negativeNumbers;
 		try {
-			negativeNumbers = getIntNumbers(numbers)
-					.filter(n -> n < 0)
-					.mapToObj(Integer::toString)
+			negativeNumbers = getIntNumbers(numbers).filter(n -> n < 0).mapToObj(Integer::toString)
 					.collect(Collectors.joining(","));
-			
-		}  catch (NumberFormatException e) {
+
+		} catch (NumberFormatException e) {
 			throw new UnknownNumberException("unknown amount of numbers", e);
 		}
-		
+
 		if (!negativeNumbers.isEmpty()) {
 			throw new NegativeNumberException("negatives not allowed: " + negativeNumbers);
 		}
@@ -58,11 +57,20 @@ public class StringCalculator {
 
 	private IntStream getIntNumbers(String[] numbers) {
 		IntStream intStream;
+		List<Integer> listNumbers;
 		try {
-			intStream = Arrays.stream(numbers).filter(n -> !isEmpty(n)).mapToInt(Integer::parseInt);
+			listNumbers = Arrays.stream(numbers).filter(n -> !isEmpty(n)).mapToInt(Integer::parseInt).boxed()
+					.collect(Collectors.toList());
 		} catch (NumberFormatException e) {
 			throw new UnknownNumberException("unknown amount of numbers", e);
 		}
+
+		if (listNumbers.stream().anyMatch(n -> n > 1000)) {
+			throw new IllegalArgumentException("big numbers not allowed");
+		} else {
+			intStream = Arrays.stream(numbers).filter(n -> !isEmpty(n)).mapToInt(Integer::parseInt);
+		}
+
 		return intStream;
 	}
 
