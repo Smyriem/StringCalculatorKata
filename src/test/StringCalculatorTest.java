@@ -56,4 +56,9 @@ public class StringCalculatorTest {
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void test_IgnoreBigNumbers_ShouldThrowException(){
+		stringCalculator.add("2,10001");
+	}
 }
