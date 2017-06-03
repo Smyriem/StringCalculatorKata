@@ -1,5 +1,7 @@
 package main;
 
+import java.util.Arrays;
+
 import exeption.UnknownNumberException;
 
 public class StringCalculator {
@@ -10,9 +12,9 @@ public class StringCalculator {
 
 			return 0;
 
-		} else if (input.contains(",")) {
+		} else if (input.contains(",") || input.contains("\n")) {
 
-			String[] numbers = input.split(",");
+			String[] numbers = input.split(",|\n");
 			return getSum(numbers);
 
 		} else
@@ -21,7 +23,10 @@ public class StringCalculator {
 	}
 
 	private int getSum(String[] numbers) {
-		return convertStringToInt(numbers[0]) + convertStringToInt(numbers[1]);
+		int sum;
+		sum = Arrays.stream(numbers).mapToInt(Integer::parseInt).sum();
+		return sum;
+		
 	}
 
 	private boolean isEmpty(String input) {
