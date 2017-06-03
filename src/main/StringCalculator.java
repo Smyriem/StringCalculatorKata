@@ -1,9 +1,9 @@
 package main;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import exception.NegativeNumberException;
 import exception.UnknownNumberException;
@@ -12,40 +12,58 @@ public class StringCalculator {
 
 	private static final String COMMA_DELIMITER = ",";
 	private static final String NEWLINE_DELIMITER = "\n";
-	private static final String INPUT_PATTERN = "^\\d+([\\,|\\n]?\\d+)*";
+	private static final String INPUT_PATTERN = "^[\\-]?\\d+([\\,|\\n]?[\\-]?\\d+)*";
 
 	public int add(String input) {
-		if (isEmpty(input)) {
-			return 0;
-		}
+
 		String[] numbers = input.split(",|\n");
-		List<String> listNegativ = Arrays.stream(numbers).filter(n-> n.contains("-")).collect(Collectors.toList());
-		if(!listNegativ.isEmpty()){
-			throw new NegativeNumberException("negatives not allowed: "+listNegativ);
-		}
+
+		validateInput(input);
 		
-		if (input.contains(COMMA_DELIMITER) || input.contains(NEWLINE_DELIMITER)) {
-			validateInput(input);
-		}
+		checkNegativeNumbers(numbers);
+
 		return getSum(numbers);
 	}
 
 	private void validateInput(String input) {
-		Pattern pattern = Pattern.compile(INPUT_PATTERN);
-		boolean isValidInput = pattern.matcher(input).matches();
-		if (!isValidInput) {
-			throw new IllegalArgumentException("input not valid");
+		if (input.contains(COMMA_DELIMITER) || input.contains(NEWLINE_DELIMITER)) {
+			Pattern pattern = Pattern.compile(INPUT_PATTERN);
+			boolean isValidInput = pattern.matcher(input).matches();
+			if (!isValidInput) {
+				throw new IllegalArgumentException("input not valid");
+			}
 		}
 	}
 
 	private int getSum(String[] numbers) {
-		int sum;
+		return getIntNumbers(numbers).sum();
+	}
+
+	private void checkNegativeNumbers(String[] numbers) {
+		String negativeNumbers;
 		try {
-			sum = Arrays.stream(numbers).mapToInt(Integer::parseInt).sum();
+			negativeNumbers = getIntNumbers(numbers)
+					.filter(n -> n < 0)
+					.mapToObj(Integer::toString)
+					.collect(Collectors.joining(","));
+			
+		}  catch (NumberFormatException e) {
+			throw new UnknownNumberException("unknown amount of numbers", e);
+		}
+		
+		if (!negativeNumbers.isEmpty()) {
+			throw new NegativeNumberException("negatives not allowed: " + negativeNumbers);
+		}
+	}
+
+	private IntStream getIntNumbers(String[] numbers) {
+		IntStream intStream;
+		try {
+			intStream = Arrays.stream(numbers).filter(n -> !isEmpty(n)).mapToInt(Integer::parseInt);
 		} catch (NumberFormatException e) {
 			throw new UnknownNumberException("unknown amount of numbers", e);
 		}
-		return sum;
+		return intStream;
 	}
 
 	private boolean isEmpty(String input) {
