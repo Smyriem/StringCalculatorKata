@@ -12,8 +12,8 @@ import exception.UnknownNumberException;
 public class StringCalculator {
 
 	private static final String COMMA_DELIMITER = ",";
-	private static final String NEWLINE_DELIMITER = "\n";
-	private static final String INPUT_PATTERN = "^[\\-]?\\d+([\\,|\\n]?[\\-]?\\d+)*";
+	private static final String NEWLINE_DELIMITER = "\n";	
+	private static final Pattern INPUT_PATTERN = Pattern.compile("^[\\-]?\\d+([\\,|\\n]?[\\-]?\\d+)*");
 
 	public int add(String input) {
 
@@ -27,9 +27,8 @@ public class StringCalculator {
 	}
 
 	private void validateInput(String input) {
-		if (input.contains(COMMA_DELIMITER) || input.contains(NEWLINE_DELIMITER)) {
-			Pattern pattern = Pattern.compile(INPUT_PATTERN);
-			boolean isValidInput = pattern.matcher(input).matches();
+		if (input.contains(COMMA_DELIMITER) || input.contains(NEWLINE_DELIMITER)) {			
+			boolean isValidInput = INPUT_PATTERN.matcher(input).matches();
 			if (!isValidInput) {
 				throw new IllegalArgumentException("input not valid");
 			}
@@ -59,8 +58,8 @@ public class StringCalculator {
 		IntStream intStream;
 		List<Integer> listNumbers;
 		try {
-			listNumbers = Arrays.stream(numbers).filter(n -> !isEmpty(n)).mapToInt(Integer::parseInt).boxed()
-					.collect(Collectors.toList());
+			listNumbers = Arrays.stream(numbers).filter(this:: nonEmpty).map(Integer :: valueOf)					
+							.collect(Collectors.toList());
 		} catch (NumberFormatException e) {
 			throw new UnknownNumberException("unknown amount of numbers", e);
 		}
@@ -68,14 +67,14 @@ public class StringCalculator {
 		if (listNumbers.stream().anyMatch(n -> n > 1000)) {
 			throw new IllegalArgumentException("big numbers not allowed");
 		} else {
-			intStream = Arrays.stream(numbers).filter(n -> !isEmpty(n)).mapToInt(Integer::parseInt);
+			intStream = Arrays.stream(numbers).filter(this:: nonEmpty).mapToInt(Integer::parseInt);
 		}
 
 		return intStream;
 	}
 
-	private boolean isEmpty(String input) {
-		return input.isEmpty();
+	private boolean nonEmpty(String input) {
+		return !input.isEmpty();
 	}
 
 }
